@@ -16,7 +16,11 @@ def lambda_handler(event, context):
         state = 'fname'
     sf = boto3.client('stepfunctions', region_name = 'eu-west-2')
     input_dict = {'state': state, 'name': n1}
-    response = sf.start_execution(
-    stateMachineArn = 'arn:aws:states:eu-west-2:918781784251:stateMachine:sourabhfsm',
-    input = json.dumps(input_dict))
-    return input_dict
+    try:
+        response = sf.start_execution(
+        stateMachineArn = 'arn:aws:states:eu-west-2:918781784251:stateMachine:sourabhfsm',
+        input = json.dumps(input_dict))
+        return input_dict
+    except:
+        return "Error in processing data"
+    #print (response)
