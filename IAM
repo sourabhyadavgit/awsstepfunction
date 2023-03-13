@@ -1,0 +1,7 @@
+added AWS step function role's policies to include execure lambda permissions
+added aws lambda role to add start execution policy in its role policies
+got to lambda configurations
+goto permission and role shouldbe there
+add policies
+select full execution step function policies.
+#type is your state machine stauts as of now

@@ -1,0 +1,31 @@
+{
+  "Comment": "sytest",
+  "StartAt": "checkname",
+  "States": {
+    "checkname": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.type",
+          "StringEquals": "fname",
+          "Next": "fname"
+        },
+        {
+          "Variable": "$.type",
+          "StringEquals": "lname",
+          "Next": "lname"
+        }
+      ]
+    },
+    "fname": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "End": true
+    },
+    "lname": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "End": true
+    }
+  }
+}
