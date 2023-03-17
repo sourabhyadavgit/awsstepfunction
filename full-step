@@ -1,0 +1,41 @@
+{
+  "Comment": "sytest",
+  "StartAt": "checkState",
+  "States": {
+    "checkState": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.state",
+          "StringEquals": "fname",
+          "Next": "fname"
+        },
+        {
+          "Variable": "$.state",
+          "StringEquals": "lname",
+          "Next": "lname"
+        }
+      ]
+    },
+    "fname": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "Next": "halfState"
+    },
+    "lname": {
+       "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "Next": "FullState"
+    },
+    "halfState": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:haflname",
+      "End": true
+    },
+    "FullState": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "End": true
+    }
+  }
+}
