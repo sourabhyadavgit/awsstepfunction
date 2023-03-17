@@ -1,0 +1,32 @@
+"validation": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:checinput",
+      "OutputPath": "$",
+      "Next": "checkoutput"
+    },
+    "checkoutput": {
+     "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.emp.fname",
+          "StringEquals": "mike",
+          "Next": "fnameExist"
+        },  
+        {
+          "Variable": "$.emp2.fname",
+          "StringEquals": "mike",
+          "Next": "fnameNotExist"
+        }
+      ]
+    },
+    "fnameExist": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "InputPath":"$.emp",
+      "End": true
+    },
+    "fnameNotExist": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "End": true
+    }
