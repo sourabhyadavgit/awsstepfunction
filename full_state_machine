@@ -1,0 +1,78 @@
+{
+  "Comment": "sytest",
+  "StartAt": "checkState",
+  "States": {
+    "checkState": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.state",
+          "StringEquals": "fname",
+          "Next": "fname"
+        },
+        {
+          "Variable": "$.state",
+          "StringEquals": "lname",
+          "Next": "lname"
+        } 
+       ]
+    },
+    "validation": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:checinput",
+      "OutputPath": "$",
+      "Next": "checkoutput"
+    },
+    "checkoutput": {
+     "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.emp.fname",
+          "StringEquals": "mike",
+          "Next": "fnameExist"
+        },  
+        {
+          "Variable": "$.emp2.fname",
+          "StringEquals": "mike",
+          "Next": "fnameNotExist"
+        }
+      ]
+    },
+    "fnameExist": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "InputPath":"$.emp",
+       "Next": "FullState"
+    },
+    "fnameNotExist": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "Next": "ErrorEnterfName"
+    },
+    "ErrorEnterfName": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "End": true
+    },
+    "fname": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "Next": "EnterLname"
+    },
+    "lname": {
+       "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "Next": "validation"
+    },
+    "EnterLname": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:haflname",
+      "End": true
+    },
+    "FullState": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:eu-west-2:918781784251:function:sourabhlambda",
+      "End": true
+    }
+  }
+}
